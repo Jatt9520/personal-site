@@ -1,0 +1,557 @@
+/* =====================================================================
+ * style.css — 全局样式
+ * 视觉基调：文艺简约 · 米白底色 + 浅灰点缀 · 方框嵌套层次
+ * 分区：
+ *   ① 变量与重置
+ *   ② 布局骨架
+ *   ③ 右上角固定标识
+ *   ④ 入场弹窗
+ *   ⑤ 左侧联系方式栏
+ *   ⑥ 大外框主容器
+ *   ⑦ 像素画板
+ *   ⑧ 双导航入口
+ *   ⑨ 创作板块
+ *   ⑩ 项目卡片
+ *   ⑪ Toast 提示
+ *   ⑫ 响应式
+ * ===================================================================== */
+
+/* ---------- ① 变量与重置 ---------- */
+:root {
+  --bg: #f5f1e8;          /* 页面米白底色 */
+  --card-bg: #fbf8f0;      /* 卡片 / 板块底色 */
+  --board-bg: #fffdf7;     /* 画板底色 */
+  --line: #d9d4c8;         /* 浅灰细边框 */
+  --line-soft: #e5e0d4;    /* 更浅的边框 */
+  --ink: #4c4638;          /* 主文字色（深灰棕） */
+  --ink-soft: #8a8578;     /* 次要文字（浅灰） */
+  --accent: #b8a582;       /* 点缀（浅棕） */
+  --radius: 6px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* 兜底的平滑滚动（导航处还会 JS 加强） */
+}
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background:
+    radial-gradient(circle at 20% 8%, rgba(184, 165, 130, 0.08), transparent 42%),
+    var(--bg);
+  color: var(--ink);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- ② 布局骨架 ---------- */
+.page {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 88px 28px 72px;
+}
+
+.top-row {
+  display: flex;
+  align-items: center; /* 联系方式栏与大外框垂直居中对齐 */
+  gap: 28px;
+}
+
+/* ---------- ③ 右上角固定标识 ---------- */
+.fixed-tag {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  z-index: 500;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--ink-soft);
+  background: rgba(245, 241, 232, 0.82);
+  padding: 4px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  pointer-events: none; /* 不遮挡任何内容点击 */
+  user-select: none;
+  backdrop-filter: blur(2px);
+}
+
+/* ---------- ④ 入场弹窗 ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(48, 44, 34, 0.48);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.modal-overlay.closed {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.modal-box {
+  width: min(540px, 90vw);
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 44px 40px 40px;
+  text-align: center;
+  box-shadow: 0 24px 70px rgba(40, 36, 26, 0.28);
+}
+
+.modal-title {
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: var(--ink);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.modal-desc {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 30px;
+  line-height: 2;
+}
+
+.modal-btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--board-bg);
+  color: var(--ink);
+  font-size: 15px;
+  letter-spacing: 2px;
+  padding: 10px 42px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(40, 36, 26, 0.14);
+  background: #f0eadc;
+}
+
+.step-swap {
+  animation: fadeUp 0.35s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- ⑤ 左侧联系方式栏 ---------- */
+.contact-bar {
+  flex: 0 0 168px;
+  text-align: right;
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 1px;
+}
+
+.contact-bar .contact-title {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.contact-bar .contact-item {
+  display: block;
+  margin-bottom: 8px;
+  transition: color 0.2s ease;
+}
+
+.contact-bar a.contact-item:hover {
+  color: var(--ink);
+}
+
+/* ---------- ⑥ 大外框主容器 ---------- */
+.outer-frame {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 26px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 253, 247, 0.5), rgba(245, 241, 232, 0.6));
+  padding: 30px;
+  box-shadow: 0 6px 22px rgba(60, 54, 40, 0.06);
+}
+
+/* ---------- ⑦ 像素画板 ---------- */
+.board-area {
+  flex: 2; /* 约占外框 2/3 */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.board-frame {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: var(--board-bg);
+  padding: 14px;
+  min-height: 320px;
+}
+
+.board-logo {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+#pixelCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  background: #ffffff;
+  border: 1px solid var(--line-soft);
+  touch-action: manipulation;
+}
+
+.remaining-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  z-index: 2;
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: rgba(255, 253, 247, 0.92);
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  padding: 3px 12px;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(60, 54, 40, 0.08);
+}
+
+.enter-btn {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 124px;
+  height: 46px;
+  z-index: 2;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card-bg);
+  color: var(--ink);
+  font-size: 16px;
+  letter-spacing: 5px;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(60, 54, 40, 0.16);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.enter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(60, 54, 40, 0.2);
+  background: #f0eadc;
+}
+
+.enter-btn.hidden {
+  display: none;
+}
+
+.board-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.color-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.color-field input[type="color"] {
+  width: 34px;
+  height: 26px;
+  padding: 1px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.board-hint {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* ---------- ⑧ 双导航入口 ---------- */
+.nav-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.nav-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  font-size: 16px;
+  letter-spacing: 6px;
+  color: var(--ink);
+  text-indent: 6px; /* 抵消 letter-spacing 造成的视觉偏移 */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(60, 54, 40, 0.16);
+  color: #3a3529;
+}
+
+/* ---------- ⑨ 创作板块 ---------- */
+.content-section {
+  margin-top: 64px;
+}
+
+.content-section:last-of-type {
+  margin-top: 72px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 8px;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+
+.creation-text {
+  font-size: 17px;
+  line-height: 2.2;
+  color: var(--ink-soft);
+  background: var(--card-bg);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 34px 40px;
+}
+
+.creation-text b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---------- ⑩ 项目卡片 ---------- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.project-card {
+  display: block;
+  border: 1px solid var(--line-soft);
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 22px 22px 20px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px rgba(60, 54, 40, 0.13);
+  border-color: var(--line);
+}
+
+.project-card h3 {
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.project-card .project-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  min-height: 42px;
+  line-height: 1.7;
+}
+
+.project-card .lang-badge {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 12px;
+}
+
+.project-fallback {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-soft);
+  padding: 24px 0;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+}
+
+/* ---------- ⑪ Toast 提示 ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%) translateY(16px);
+  z-index: 1200;
+  max-width: 86vw;
+  background: rgba(48, 44, 34, 0.92);
+  color: #f2ecdd;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+}
+
+.toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- ⑫ 网站底栏 ---------- */
+.site-footer {
+  margin-top: 72px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--ink-soft);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .page {
+    padding: 76px 18px 56px;
+  }
+
+  /* 左侧改为顶部横向 */
+  .top-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .contact-bar {
+    flex: none;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .contact-bar .contact-title {
+    margin-bottom: 0;
+    flex-basis: 100%;
+  }
+
+  .contact-bar .contact-item {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+
+  /* 大外框改为上下堆叠：画板在上，导航在下 */
+  .outer-frame {
+    flex-direction: column;
+    padding: 22px;
+    gap: 22px;
+  }
+
+  .board-area {
+    flex: none;
+  }
+
+  .nav-area {
+    flex: none;
+    flex-direction: row;
+    gap: 14px;
+  }
+
+  .nav-box {
+    padding: 30px 0;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .fixed-tag {
+    top: 10px;
+    right: 10px;
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .modal-box {
+    padding: 32px 22px 28px;
+  }
+
+  .creation-text {
+    padding: 24px 20px;
+  }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="个人社交名片：像素画板 + 创作初衷 + 项目展示。" />
+  <title>个人社交名片 · 像素画板</title>
+
+  <!--
+    =====================================================================
+    GitHub Pages 部署步骤
+    ---------------------------------------------------------------------
+    1. 在 GitHub 新建一个仓库（任意名字，例如 personal-site）
+    2. 在项目根目录执行：
+         git init
+         git add .
+         git commit -m "first commit"
+         git branch -M main
+         git remote add origin git@github.com:你的用户名/personal-site.git
+         git push -u origin main
+    3. 打开仓库 → Settings → Pages → Source 选择「Deploy from a branch」
+         Branch 选 main，目录选 / (root)，点击 Save
+    4. 等待 1~2 分钟，访问 https://你的用户名.github.io/personal-site/
+    说明：
+       - 本站所有资源均使用相对路径（css/js），部署到任意子路径都能正常显示
+       - 若开启自定义域名，可在 Settings → Pages → Custom domain 配置
+    =====================================================================
+  -->
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ 右上角固定标识（滚动时固定，层级高于所有内容） ============ -->
+  <div class="fixed-tag" id="fixedTag"></div>
+
+  <!-- ============ 入场弹窗 ============ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-desc" id="modalDesc"></p>
+      <button class="modal-btn" id="modalBtn" type="button"></button>
+    </div>
+  </div>
+
+  <!-- ============ 左侧联系方式栏 与 大外框（同一行，垂直居中） ============ -->
+  <main class="page">
+
+    <div class="top-row">
+      <aside class="contact-bar" id="contactBar"></aside>
+
+      <!-- 大外框主容器 -->
+      <div class="outer-frame">
+
+        <!-- 左半区：像素画板（约占外框 2/3） -->
+        <section class="board-area">
+          <div class="board-frame" id="boardFrame">
+            <span class="board-logo" id="boardLogo"></span>
+            <span class="remaining-badge" id="remainingBadge"></span>
+            <canvas id="pixelCanvas"></canvas>
+            <button class="enter-btn" id="enterBtn" type="button"></button>
+          </div>
+          <div class="board-toolbar">
+            <label class="color-field">
+              选择颜色
+              <input type="color" id="colorPicker" value="#2b2b2b" />
+            </label>
+            <span class="board-hint" id="boardHint"></span>
+          </div>
+        </section>
+
+        <!-- 右半区：双导航入口 -->
+        <aside class="nav-area">
+          <a class="nav-box" href="#creation" data-target="creation">创作初衷</a>
+          <a class="nav-box" href="#projects" data-target="projects">我的项目</a>
+        </aside>
+      </div>
+    </div>
+
+    <!-- 创作板块 -->
+    <section class="content-section" id="creation">
+      <h2 class="section-title"></h2>
+      <p class="creation-text"></p>
+    </section>
+
+    <!-- 我的项目板块 -->
+    <section class="content-section" id="projects">
+      <h2 class="section-title"></h2>
+      <div class="project-grid" id="projectGrid"></div>
+    </section>
+
+    <footer class="site-footer" id="siteFooter"></footer>
+  </main>
+
+  <!-- ============ 全局 Toast 提示 ============ -->
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
